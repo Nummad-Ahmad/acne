@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import style from './app.module.css';
 import { IoMdCloudUpload } from "react-icons/io";
+import axios from "axios";
+
 export default function App() {
     const [image, setImage] = useState(null);
     const [result, setResult] = useState([]);
@@ -25,15 +27,12 @@ export default function App() {
         const formData = new FormData();
         formData.append("file", file);
 
-        fetch("http://localhots:5000/predict", {
-            method: "POST",
-            body: formData
+        axios
+        .post("http://127.0.0.1:5000/predict", formData)
+        .then((response) => {
+            setResult(response.data);
         })
-            .then(response => response.json())
-            .then(data => {
-                setResult(data);
-            })
-            .catch(error => console.error("Error:", error));
+        .catch((error) => console.error("Error:", error));
     };
     return (
         <div className={style.app}>
@@ -76,14 +75,14 @@ export default function App() {
                             {image && <img src={image} alt="Uploaded" className={style.img} />}
                         </div>
                 }
-                <input
+                {/* <input
 
                     id="file-input"
                     className={style.imgInput}
                     type="file"
                     onChange={handleImageChange}
                     accept=".png, .jpeg, .jpg"
-                />
+                /> */}
                 {/* <input type="file" onChange={handleImageChange} accept="image/*"></input> */}
                 {/* {image && <img src={image} alt="Uploaded" className={style.img} />} */}
                 {
