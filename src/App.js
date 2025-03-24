@@ -7,7 +7,6 @@ import toast from 'react-hot-toast';
 export default function App() {
     const [image, setImage] = useState(null);
     const [result, setResult] = useState([]);
-    const [processing, setProcessing] = useState(false);
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -35,7 +34,7 @@ export default function App() {
                 toast.dismiss(loadingToast);
                 setResult(response.data);
             })
-            .catch((error) => console.error("Error:", error));
+            .catch((error) => {toast.error("An error occurred"); console.error("Error:", error)});
     };
     return (
         <div className={style.app}>
