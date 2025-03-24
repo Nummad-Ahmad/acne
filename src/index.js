@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from "./App";
+import { Toaster } from 'react-hot-toast';
 ReactDOM.render(
-<App></App>,
+    <>
+    <Toaster />
+<App></App>
+</>,
 document.getElementById('root')
 );
