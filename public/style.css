@@ -1,0 +1,9 @@
+.text{
+    display: inline;
+    margin-right: 30px;
+}
+.count{
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+}
