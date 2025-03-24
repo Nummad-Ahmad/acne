@@ -30,6 +30,7 @@ export default function App() {
         axios
         .post("http://localhost:5000/predict", formData)
         .then((response) => {
+            console.log(response);
             setResult(response.data);
         })
         .catch((error) => console.error("Error:", error));
@@ -75,30 +76,11 @@ export default function App() {
                             {image && <img src={image} alt="Uploaded" className={style.img} />}
                         </div>
                 }
-                {/* <input
-
-                    id="file-input"
-                    className={style.imgInput}
-                    type="file"
-                    onChange={handleImageChange}
-                    accept=".png, .jpeg, .jpg"
-                /> */}
-                {/* <input type="file" onChange={handleImageChange} accept="image/*"></input> */}
-                {/* {image && <img src={image} alt="Uploaded" className={style.img} />} */}
                 {
                     result.classification &&
-                    <p>Result {result.classification.result}</p>
-
-                }
-                {
-                    result.classification &&
-                    <p>Confidence {(result.classification.confidence * 100).toFixed(2)}%</p>
-                }
-                {
-                    result.classification &&
-                    result.classification.forEach(item => {
-                        <p style={{ fontWeight: 'bold', fontSize: '20px' }}>{item.label} Confidence {(item.confidence * 100).toFixed(2)}%</p>
-                    })
+                    <p style={{marginTop: '50px', fontSize: '20px', fontWeight: 'bold'}}>
+                    {result.classification[0].label} {(result.classification[0].confidence* 100).toFixed(2)}%
+                    </p>
                 }
             </div>
         </div>
