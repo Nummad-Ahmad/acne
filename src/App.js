@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import style from './app.module.css';
 import { IoMdCloudUpload } from "react-icons/io";
 import axios from "axios";
+import toast from 'react-hot-toast';
 
 export default function App() {
     const [image, setImage] = useState(null);
     const [result, setResult] = useState([]);
+    const [processing, setProcessing] = useState(false);
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -24,16 +26,16 @@ export default function App() {
     };
 
     const uploadImage = (file) => {
+        const loadingToast = toast.loading("Processing image...");
         const formData = new FormData();
         formData.append("file", file);
-
         axios
-        .post("http://localhost:5000/predict", formData)
-        .then((response) => {
-            console.log(response);
-            setResult(response.data);
-        })
-        .catch((error) => console.error("Error:", error));
+            .post("http://localhost:5000/predict", formData)
+            .then((response) => {
+                toast.dismiss(loadingToast);
+                setResult(response.data);
+            })
+            .catch((error) => console.error("Error:", error));
     };
     return (
         <div className={style.app}>
@@ -41,14 +43,14 @@ export default function App() {
                 <p style={{ fontWeight: 'bold', fontSize: '20px' }}>Upload an Image for Acne Classification</p>
                 {
                     !image ?
-                    <>
-                        <label htmlFor="file-input" className={style.customFileInput}>
-                            <div className={style.uploadImage}>
-                                <IoMdCloudUpload size={70} color='black' />
-                                <p style={{ color: 'black' }}>Upload image</p>
-                            </div>
-                        </label>
-                        <input
+                        <>
+                            <label htmlFor="file-input" className={style.customFileInput}>
+                                <div className={style.uploadImage}>
+                                    <IoMdCloudUpload size={70} color='black' />
+                                    <p style={{ color: 'black' }}>Upload image</p>
+                                </div>
+                            </label>
+                            <input
 
                                 id="file-input"
                                 className={style.imgInput}
@@ -56,16 +58,16 @@ export default function App() {
                                 onChange={handleImageChange}
                                 accept=".png, .jpeg, .jpg"
                             />
-                            </>
+                        </>
                         :
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                        <label htmlFor="file-input" className={style.customFileInput}>
-                            <div className={style.uploadImage}>
-                                <IoMdCloudUpload size={70} color='black' />
-                                <p style={{ color: 'black' }}>Upload image</p>
-                            </div>
-                        </label>
-                        <input
+                            <label htmlFor="file-input" className={style.customFileInput}>
+                                <div className={style.uploadImage}>
+                                    <IoMdCloudUpload size={70} color='black' />
+                                    <p style={{ color: 'black' }}>Upload image</p>
+                                </div>
+                            </label>
+                            <input
 
                                 id="file-input"
                                 className={style.imgInput}
@@ -78,8 +80,8 @@ export default function App() {
                 }
                 {
                     result.classification &&
-                    <p style={{marginTop: '50px', fontSize: '20px', fontWeight: 'bold'}}>
-                    {result.classification[0].label} {(result.classification[0].confidence* 100).toFixed(2)}%
+                    <p style={{ marginTop: '50px', fontSize: '20px', fontWeight: 'bold' }}>
+                        {result.classification[0].label} {(result.classification[0].confidence * 100).toFixed(2)}%
                     </p>
                 }
             </div>
