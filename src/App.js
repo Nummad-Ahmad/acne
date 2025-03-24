@@ -39,12 +39,43 @@ export default function App() {
         <div className={style.app}>
             <div className={style.container}>
                 <p style={{ fontWeight: 'bold', fontSize: '20px' }}>Upload an Image for Acne Classification</p>
-                <label htmlFor="file-input" className={style.customFileInput}>
-                    <div className={style.uploadImage}>
-                        <IoMdCloudUpload size={70} color='black' />
-                        <p style={{ color: 'black' }}>Upload image</p>
-                    </div>
-                </label>
+                {
+                    !image ?
+                    <>
+                        <label htmlFor="file-input" className={style.customFileInput}>
+                            <div className={style.uploadImage}>
+                                <IoMdCloudUpload size={70} color='black' />
+                                <p style={{ color: 'black' }}>Upload image</p>
+                            </div>
+                        </label>
+                        <input
+
+                                id="file-input"
+                                className={style.imgInput}
+                                type="file"
+                                onChange={handleImageChange}
+                                accept=".png, .jpeg, .jpg"
+                            />
+                            </>
+                        :
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                        <label htmlFor="file-input" className={style.customFileInput}>
+                            <div className={style.uploadImage}>
+                                <IoMdCloudUpload size={70} color='black' />
+                                <p style={{ color: 'black' }}>Upload image</p>
+                            </div>
+                        </label>
+                        <input
+
+                                id="file-input"
+                                className={style.imgInput}
+                                type="file"
+                                onChange={handleImageChange}
+                                accept=".png, .jpeg, .jpg"
+                            />
+                            {image && <img src={image} alt="Uploaded" className={style.img} />}
+                        </div>
+                }
                 <input
 
                     id="file-input"
@@ -54,11 +85,11 @@ export default function App() {
                     accept=".png, .jpeg, .jpg"
                 />
                 {/* <input type="file" onChange={handleImageChange} accept="image/*"></input> */}
-                {image && <img src={image} alt="Uploaded" className={style.img} />}
+                {/* {image && <img src={image} alt="Uploaded" className={style.img} />} */}
                 {
                     result.classification &&
-                    <p>Result {result.classification.result}</p> 
-                    
+                    <p>Result {result.classification.result}</p>
+
                 }
                 {
                     result.classification &&

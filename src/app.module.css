@@ -40,16 +40,13 @@ input {
     border-radius: 10px;
 }
 .customFileInput {
-    /* background-color: rgb(61, 82, 163); */
     color: white;
     text-align: center;
     width: 240px;
     padding: 7px 0px;
     border-radius: 5px;
     font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    
+    cursor: pointer;    
     box-sizing: border-box;
 }
 .imgInput {
